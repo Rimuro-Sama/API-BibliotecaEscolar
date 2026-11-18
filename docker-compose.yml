@@ -1,0 +1,40 @@
+# Sobe a API + o PostgreSQL:   cp .env.example .env   (edite as senhas)   &&   docker compose up --build
+# As variáveis são OBRIGATÓRIAS: sem elas o compose para com uma mensagem, em vez de usar senha padrão.
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: biblioteca
+      POSTGRES_USER: ${DB_USER:?defina DB_USER no arquivo .env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no arquivo .env}
+    volumes:
+      - dados-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d biblioteca"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    # sem "ports": o banco não é exposto fora da rede interna do compose; só a API conversa com ele
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/biblioteca
+      DB_USER: ${DB_USER:?defina DB_USER no arquivo .env}
+      DB_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no arquivo .env}
+      BIBLIOTECA_ADMIN_USER: ${BIBLIOTECA_ADMIN_USER:?defina BIBLIOTECA_ADMIN_USER no arquivo .env}
+      BIBLIOTECA_ADMIN_PASSWORD: ${BIBLIOTECA_ADMIN_PASSWORD:?defina BIBLIOTECA_ADMIN_PASSWORD no arquivo .env}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8080/actuator/health | grep -q UP"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
+
+volumes:
+  dados-postgres:
