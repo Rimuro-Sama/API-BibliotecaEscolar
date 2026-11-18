@@ -124,7 +124,7 @@ E os testes acharam defeitos no próprio código durante o desenvolvimento: o Hi
 - A aplicação foi empacotada em `.jar`, subiu e foi usada por HTTP (criar leitor, livro e exemplares, emprestar, conflito, renovar, devolver, validação, Swagger).
 - Ela **se recusa a subir** sem as variáveis obrigatórias, com mensagem clara.
 
-**Verificado pelo CI do GitHub** (não há daemon Docker no meu ambiente de desenvolvimento): os testes contra um PostgreSQL em container e o `docker compose up` completo, com chamadas reais à API.
+**Verificado pelo CI do GitHub, que passou** (não há daemon Docker no meu ambiente de desenvolvimento): os testes contra um PostgreSQL em container e o `docker compose up` completo (build da imagem, banco e API), com chamadas reais à API: catálogo público, 401 sem login, login correto, cadastro de livro e Swagger.
 
 **Não verificado:**
 - Desempenho e carga.
