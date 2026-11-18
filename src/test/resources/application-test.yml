@@ -1,0 +1,14 @@
+# Perfil dos testes de integração: usam um PostgreSQL REAL (nada de banco em memória), para que as
+# migrações, o índice único parcial e as travas de linha sejam testados de verdade.
+# Localmente: um PostgreSQL com o banco "biblioteca_test". No CI: o service container do workflow.
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/biblioteca_test}
+    username: ${TEST_DB_USER:postgres}
+    password: ${TEST_DB_PASSWORD:postgres}
+
+biblioteca:
+  admin:
+    # credenciais FICTÍCIAS, só para os testes
+    user: bibliotecario-teste
+    password: senha-de-teste-apenas
