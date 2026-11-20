@@ -138,6 +138,10 @@ E os testes acharam defeitos no próprio código durante o desenvolvimento: o Hi
 - Não dá para remover um exemplar pela API.
 - A validação de e-mail é a padrão do Bean Validation (não confirma que o endereço existe).
 
+## Licença
+
+[MIT](LICENSE): você pode usar, copiar e modificar este código, inclusive em projetos comerciais, mantendo o aviso de copyright. O código é fornecido sem garantia.
+
 ## Sobre o desenvolvimento
 
 Projeto pessoal de estudo, feito por mim com apoio do Claude Code para código, testes e revisão. Eu defini o escopo e as regras de negócio; os testes e as verificações descritos acima foram executados de verdade.
